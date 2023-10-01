@@ -10,13 +10,13 @@ class PostSchema(Schema):
   
 class TripSchema(Schema):
   id = fields.Str(dump_only = True)
-  timestamp = fields.Str(dump_only = True)
   name = fields.Str(required = True)
   trip_date = fields.Str(required = True)
   location = fields.Str(required = True)
-  user_id = fields.Str(required = True)
   body = fields.Str(required = True)
   keywords = fields.Str()
+  user_id = fields.Str(required = True)
+  timestamp = fields.Str(dump_only = True)
   
 
 class UserSchema(Schema):

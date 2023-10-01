@@ -25,10 +25,10 @@ class TripList(MethodView):
   @bp.response(200, TripSchema)
   def post(self, trip_data):
     user_id = get_jwt_identity()
-    t = TripModel(**trip_data)
+    trip = TripModel(**trip_data)
     try:
-      t.save()
-      return t
+      trip.save()
+      return trip
     except IntegrityError:
       abort(400, message="Invalid User Id")
 
@@ -38,22 +38,22 @@ class Trip(MethodView):
   @jwt_required()
   @bp.response(200, TripSchema)
   def get(self, trip_id):
-    t = TripModel.query.get(trip_id)
-    if t:
-      return t
+    trip = TripModel.query.get(trip_id)
+    if trip:
+      return trip
     abort(400, message='Invalid Trip Id')
 
   @jwt_required()
   @bp.arguments(TripSchema)
   @bp.response(200, TripSchema)
   def put(self, trip_data, trip_id):
-    t = TripModel.query.get(trip_id)
-    if t and trip_data['body']:
+    trip = TripModel.query.get(trip_id)
+    if trip and trip_data['body']:
       user_id = get_jwt_identity()
-      if t.user_id == user_id:
-        t.body = trip_data['body']
-        t.save()
-        return t
+      if trip.user_id == user_id:
+        trip.body = trip_data['body']
+        trip.save()
+        return trip
       else:
         abort(401, message='Unauthorized')
     abort(400, message='Invalid Trip Data')
@@ -61,10 +61,10 @@ class Trip(MethodView):
   @jwt_required()
   def delete(self, trip_id):
      user_id = get_jwt_identity()
-     p = TripModel.query.get(trip_id)
-     if p:
-       if p.user_id == user_id:
-        p.delete()
+     trip = TripModel.query.get(trip_id)
+     if trip:
+       if trip.user_id == user_id:
+        trip.delete()
         return {'message' : 'Trip Deleted'}, 202
        abort(401, message='User doesn\'t have rights')
      abort(400, message='Invalid Trip Id')

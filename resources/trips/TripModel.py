@@ -6,13 +6,13 @@ class TripModel(db.Model):
     __tablename__ = 'trips'
     
     id = db.Column(db.Integer, primary_key = True)
-    timestamp = db.Column(db.String, default = datetime.utcnow)
     name = db.Column(db.String, nullable = False)
-    trip_date = db.Column(db.Date, nullable = False)
+    trip_date = db.Column(db.String, nullable = False)
     location = db.Column(db.String, nullable = False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
     body = db.Column(db.String, nullable = False)
     keywords = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
+    timestamp = db.Column(db.String, default = datetime.utcnow)
     
 #     class TripSchema(Schema):
 #   id = fields.Str(dump_only = True)
