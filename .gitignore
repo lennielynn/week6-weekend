@@ -1,0 +1,5 @@
+.env 
+tbug/
+.txt
+__pycache__/
+migrations/
