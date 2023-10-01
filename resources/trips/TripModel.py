@@ -12,6 +12,7 @@ class TripModel(db.Model):
     location = db.Column(db.String, nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
     body = db.Column(db.String, nullable = False)
+    keywords = db.Column(db.String)
     
 #     class TripSchema(Schema):
 #   id = fields.Str(dump_only = True)

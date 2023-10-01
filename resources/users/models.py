@@ -9,10 +9,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
    
    
    #auxillary table - not within the database but still usable 
-# followers = db.Table('followers',
-#   db.Column('follower_id', db.Integer, db.ForeignKey('users_id')),
-#   db.Column('followed_id', db.Integer, db.ForeignKey('users_id'))
-# )
+followers = db.Table('followers',
+  db.Column('follower_id', db.Integer, db.ForeignKey('users.id')),
+  db.Column('followed_id', db.Integer, db.ForeignKey('users.id'))
+)
 
 class UserModel(db.Model):
 
@@ -26,13 +26,13 @@ class UserModel(db.Model):
   last_name = db.Column(db.String)
   posts = db.relationship('PostModel', backref = 'author', lazy = 'dynamic', cascade = 'all, delete')
   #backref- getting from the post back tot he user lazy- makes code more efficent, cascade- removes the posts witht he user to follow
-  # followed = db.relationship('UserModel',
-  #   secondary = followers, 
-  #   primaryjoin = followers.c.follower_id == id,
-  #   secondaryjoin = followers.c.followed_id == id,
-  #   backref = db.backref('followers', lazy = 'dynamic'),
-  #   lazy = 'dynamic'
-  #   )
+  followed = db.relationship('UserModel',
+    secondary = followers, 
+    primaryjoin = followers.c.follower_id == id,
+    secondaryjoin = followers.c.followed_id == id,
+    backref = db.backref('followers', lazy = 'dynamic'),
+    lazy = 'dynamic'
+    )
 
 
   def __repr__(self):
@@ -58,15 +58,15 @@ class UserModel(db.Model):
     db.session.delete(self)
     db.session.commit()    
     
-  # def is_following(self, user):
-  #   return self.followed.filter(user.id == followers.c.followed_id).count() > 0
+  def is_following(self, user):
+    return self.followed.filter(user.id == followers.c.followed_id).count() > 0
   
-  # def follow_user(self, user):
-  #   if not self.is_following(user):
-  #     self.followed.append(user)
-  #     self.save()
+  def follow_user(self, user):
+    if not self.is_following(user):
+      self.followed.append(user)
+      self.save()
 
-  # def unfollow_user(self, user):
-  #   if self.is_following(user):
-  #     self.followed.remove(user)
-  #     self.save()
+  def unfollow_user(self, user):
+    if self.is_following(user):
+      self.followed.remove(user)
+      self.save()

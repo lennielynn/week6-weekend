@@ -18,8 +18,8 @@ from resources.users import bp as user_bp # importing Blueprints(user_bp)
 api.register_blueprint(user_bp) # applying blueprint to api
 from resources.posts import bp as post_bp # importing Blueprints(post_bp)
 api.register_blueprint(post_bp) # applying blueprint to api
-# from resources.trips import bp as trip_bp
-# api.register_blueprint(trip_bp)
+from resources.trips import bp as trip_bp
+api.register_blueprint(trip_bp)
 
 #Importing Files/creating tables
 from resources.users import routes

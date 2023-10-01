@@ -25,7 +25,7 @@ class PostList(MethodView):
   @bp.response(200, PostSchema)
   def post(self, post_data):
     user_id = get_jwt_identity()
-    p = PostModel(**post_data, user_id = user_id)
+    p = PostModel(**post_data)
     try:
       p.save()
       return p

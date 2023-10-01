@@ -25,7 +25,7 @@ class TripList(MethodView):
   @bp.response(200, TripSchema)
   def post(self, trip_data):
     user_id = get_jwt_identity()
-    t = TripModel(**trip_data, user_id = user_id)
+    t = TripModel(**trip_data)
     try:
       t.save()
       return t

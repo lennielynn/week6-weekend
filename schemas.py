@@ -16,6 +16,7 @@ class TripSchema(Schema):
   location = fields.Str(required = True)
   user_id = fields.Str(required = True)
   body = fields.Str(required = True)
+  keywords = fields.Str()
   
 
 class UserSchema(Schema):
