@@ -21,9 +21,10 @@ class UserModel(db.Model):
   id = db.Column(db.Integer, primary_key = True)
   username = db.Column(db.String, unique = True, nullable = False)
   email = db.Column(db.String, unique = True, nullable = False)
-  password_hash = db.Column(db.String, nullable = False)
   first_name = db.Column(db.String)
   last_name = db.Column(db.String)
+  bio = db.Column(db.String)
+  password_hash = db.Column(db.String, nullable = False)
   posts = db.relationship('PostModel', backref = 'author', lazy = 'dynamic', cascade = 'all, delete')
   #backref- getting from the post back tot he user lazy- makes code more efficent, cascade- removes the posts witht he user to follow
   followed = db.relationship('UserModel',
